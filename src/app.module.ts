@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 import { RestaurantsModule } from './restaurants/restaurants.module'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { IS_DEVELOPMENT, IS_PRODUCTION } from './constants'
 import * as Joi from 'joi'
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { typeOrmConfig } from './configs/typeOrm.config'
 
 @Module({
     imports: [
@@ -23,6 +25,11 @@ import * as Joi from 'joi'
                 DB_NAME: Joi.string().required(),
                 DB_PORT: Joi.string().required(),
             }),
+        }),
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: typeOrmConfig(),
         }),
         GraphQLModule.forRoot({
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
