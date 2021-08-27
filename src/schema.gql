@@ -4,7 +4,7 @@
 
 type RestaurantEntity {
   name: String!
-  isVegan: Boolean!
+  isVegan: Boolean
   address: String!
   ownerName: String!
 }
@@ -20,7 +20,7 @@ type Mutation {
 
 input CreateRestaurantInput {
   name: String!
-  isVegan: Boolean!
+  isVegan: Boolean
   address: String!
   ownerName: String!
 }
