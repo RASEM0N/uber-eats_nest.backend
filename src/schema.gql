@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type RestaurantEnity {
+  name: String!
+}
+
 type Query {
   helloPizza: String!
+  restaurants: [RestaurantEnity!]!
 }
