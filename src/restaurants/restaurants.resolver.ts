@@ -1,15 +1,21 @@
-import { Query, Resolver } from '@nestjs/graphql'
-import { RestaurantEnity } from './entities/restaurant.enity'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { RestaurantEntity } from './entities/restaurant.entity'
+import { CreateRestaurantInput } from './dtos/create-restaurant.dto'
 
-@Resolver((of) => RestaurantEnity)
+@Resolver((of) => RestaurantEntity)
 export class RestaurantsResolver {
     @Query(() => String)
     helloPizza(): string {
         return 'hello pizza'
     }
 
-    @Query((returns) => [RestaurantEnity])
-    restaurants(): RestaurantEnity[] {
+    @Query((returns) => [RestaurantEntity])
+    restaurants(): RestaurantEntity[] {
         return []
+    }
+
+    @Mutation((returns) => Boolean)
+    restaurantCreate(@Args('input') createRestaurantInput: CreateRestaurantInput) {
+        return true
     }
 }

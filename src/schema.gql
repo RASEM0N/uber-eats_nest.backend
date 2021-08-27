@@ -2,11 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type RestaurantEnity {
+type RestaurantEntity {
   name: String!
+  isVegan: Boolean!
+  address: String!
+  ownerName: String!
 }
 
 type Query {
   helloPizza: String!
-  restaurants: [RestaurantEnity!]!
+  restaurants: [RestaurantEntity!]!
+}
+
+type Mutation {
+  restaurantCreate(input: CreateRestaurantInput!): Boolean!
+}
+
+input CreateRestaurantInput {
+  name: String!
+  isVegan: Boolean!
+  address: String!
+  ownerName: String!
 }
