@@ -2,9 +2,28 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 import { RestaurantsModule } from './restaurants/restaurants.module'
+import { ConfigModule } from '@nestjs/config'
+import { IS_DEVELOPMENT, IS_PRODUCTION } from './constants'
+import * as Joi from 'joi'
 
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: IS_DEVELOPMENT
+                ? ['.env.dev', '.dev.env', '.env.development', '.development.env']
+                : '.env.test',
+            ignoreEnvFile: IS_PRODUCTION,
+            validationSchema: Joi.object({
+                NODE_ENV: Joi.string().valid('development', 'production').required(),
+                PORT: Joi.string().required(),
+                DB_HOST: Joi.string().required(),
+                DB_USERNAME: Joi.string().required(),
+                DB_PASSWORD: Joi.string().required(),
+                DB_NAME: Joi.string().required(),
+                DB_PORT: Joi.string().required(),
+            }),
+        }),
         GraphQLModule.forRoot({
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         }),
