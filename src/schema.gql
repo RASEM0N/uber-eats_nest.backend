@@ -5,13 +5,19 @@
 type RestaurantEntity {
   id: ID!
   name: String!
-  isVegan: Boolean!
+  isVegan: Boolean
   address: String!
   ownerName: String!
   categoryName: String!
 }
 
 type CreateRestaurantOutput {
+  errors: [String!]
+  ok: Boolean!
+  restaurant: RestaurantEntity
+}
+
+type UpdateRestaurantOutput {
   errors: [String!]
   ok: Boolean!
   restaurant: RestaurantEntity
@@ -24,12 +30,26 @@ type Query {
 
 type Mutation {
   restaurantCreate(input: CreateRestaurantInput!): CreateRestaurantOutput!
+  restaurantUpdate(input: UpdateRestaurantInput!): UpdateRestaurantOutput!
 }
 
 input CreateRestaurantInput {
   name: String!
-  isVegan: Boolean!
+  isVegan: Boolean
   address: String!
   ownerName: String!
   categoryName: String!
+}
+
+input UpdateRestaurantInput {
+  id: ID!
+  data: PartialRestaurantInput!
+}
+
+input PartialRestaurantInput {
+  name: String
+  isVegan: Boolean
+  address: String
+  ownerName: String
+  categoryName: String
 }

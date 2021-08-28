@@ -8,7 +8,7 @@ import * as Joi from 'joi'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { typeOrmConfig } from './configs/typeOrm.config'
 import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
-import { CommonModule } from './common/common.module';
+import { CommonModule } from './common/common.module'
 
 @Module({
     imports: [
@@ -34,7 +34,8 @@ import { CommonModule } from './common/common.module';
             useFactory: typeOrmConfig([RestaurantEntity]),
         }),
         GraphQLModule.forRoot({
-            autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+            // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+            autoSchemaFile: true,
         }),
         RestaurantsModule,
         CommonModule,

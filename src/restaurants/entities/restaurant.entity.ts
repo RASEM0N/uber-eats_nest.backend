@@ -18,7 +18,9 @@ export class RestaurantEntity {
     @Column()
     name: string
 
-    @Field((type) => Boolean)
+    @Field((type) => Boolean, {
+        nullable: true,
+    })
     @IsBoolean()
     @IsOptional()
     @Column({
