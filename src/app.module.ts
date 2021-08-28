@@ -38,6 +38,5 @@ import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
         RestaurantsModule,
     ],
     controllers: [],
-    providers: [],
 })
 export class AppModule {}
