@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { RestaurantEntity } from './entities/restaurant.entity'
 import { Repository } from 'typeorm'
 import { CreateRestaurantInput } from './dtos/create-restaurant.dto'
-import { UpdateRestaurantOutput, UpdateRestaurantInput } from './dtos/update-restaurant.dto'
+import { UpdateRestaurantInput } from './dtos/update-restaurant.dto'
+import { ERROR_NOT_FOUND } from '../constants/errors'
 
 @Injectable()
 export class RestaurantsService {
@@ -25,7 +26,7 @@ export class RestaurantsService {
         const restaurant = await this.restaurantRepository.findOne(id)
 
         if (!restaurant) {
-            throw new Error(`Ресторана с id ${id} не найдено`)
+            throw new Error(ERROR_NOT_FOUND)
         }
 
         for (const key in data) {
