@@ -32,8 +32,13 @@ export class RestaurantsResolver {
                 restaurant: createdRestaurant,
             }
         } catch (e) {
+            const errors = []
+
+            errors.push(e.message)
+
             return {
                 ok: false,
+                errors,
             }
         }
     }

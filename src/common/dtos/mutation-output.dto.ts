@@ -5,7 +5,7 @@ export class MutationOutput {
     @Field((type) => [String], {
         nullable: true,
     })
-    error?: string[]
+    errors?: string[]
 
     @Field((type) => Boolean)
     ok: boolean

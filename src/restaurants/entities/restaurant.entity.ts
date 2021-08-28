@@ -15,9 +15,7 @@ export class RestaurantEntity {
     @Field((type) => String)
     @IsString()
     @Length(4, 16)
-    @Column({
-        unique: true,
-    })
+    @Column()
     name: string
 
     @Field((type) => Boolean)
