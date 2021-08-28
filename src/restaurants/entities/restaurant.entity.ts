@@ -1,31 +1,26 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql'
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql'
 import { IsBoolean, IsOptional, IsString, Length } from 'class-validator'
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
 
 @InputType({
-    // Избавляет нас от проблемы
-    // Схема должна содержать типы с уникальными именами, но содержит
-    // несколько типов с именем "RestaurantEntity".
-
-    // RestaurantEntity, как тип не считывается еще раз
     isAbstract: true,
 })
 @ObjectType()
 @Entity()
 export class RestaurantEntity {
-    @Field((type) => Number)
+    @Field((type) => ID)
     @PrimaryGeneratedColumn()
     id: number
 
     @Field((type) => String)
     @IsString()
     @Length(4, 16)
-    @Column()
+    @Column({
+        unique: true,
+    })
     name: string
 
-    @Field((type) => Boolean, {
-        nullable: true,
-    })
+    @Field((type) => Boolean)
     @IsBoolean()
     @IsOptional()
     @Column({
@@ -47,6 +42,8 @@ export class RestaurantEntity {
     ownerName: string
 
     @Field((type) => String)
+    @IsString()
+    @Length(4, 32)
     @Column()
     categoryName: string
 }

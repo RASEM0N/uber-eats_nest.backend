@@ -1,6 +1,14 @@
 import { RestaurantEntity } from '../entities/restaurant.entity'
-import { InputType, OmitType } from '@nestjs/graphql'
+import { Field, InputType, ObjectType, OmitType } from '@nestjs/graphql'
+import { MutationOutput } from '../../common/dtos/mutation-output.dto'
 
-@InputType() // аргумент, как объект input
-// @ArgsType() // множество аргументов
-export class CreateRestaurantInput extends OmitType(RestaurantEntity, []) {}
+@InputType()
+export class CreateRestaurantInput extends OmitType(RestaurantEntity, ['id']) {}
+
+@ObjectType()
+export class CreateRestaurantOutput extends MutationOutput {
+    @Field((type) => RestaurantEntity, {
+        nullable: true,
+    })
+    restaurant?: RestaurantEntity
+}

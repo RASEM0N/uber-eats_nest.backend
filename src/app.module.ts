@@ -8,6 +8,7 @@ import * as Joi from 'joi'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { typeOrmConfig } from './configs/typeOrm.config'
 import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
+import { CommonModule } from './common/common.module';
 
 @Module({
     imports: [
@@ -36,6 +37,7 @@ import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         }),
         RestaurantsModule,
+        CommonModule,
     ],
     controllers: [],
 })
