@@ -3,10 +3,12 @@
 # ------------------------------------------------------
 
 type RestaurantEntity {
+  id: Float!
   name: String!
   isVegan: Boolean
   address: String!
   ownerName: String!
+  categoryName: String!
 }
 
 type Query {
@@ -19,8 +21,10 @@ type Mutation {
 }
 
 input CreateRestaurantInput {
+  id: Float!
   name: String!
   isVegan: Boolean
   address: String!
   ownerName: String!
+  categoryName: String!
 }

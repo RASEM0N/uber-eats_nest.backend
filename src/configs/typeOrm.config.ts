@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { IS_PRODUCTION } from '../constants'
 import { EntitySchema } from 'typeorm/entity-schema/EntitySchema'
 
 export const typeOrmConfig =
-    (entities?: (string | EntitySchema<any>)[]) =>
+    (entities?: (Function | string | EntitySchema<any>)[]) =>
     async (configService: ConfigService): Promise<TypeOrmModuleOptions> => {
         return {
             type: 'postgres',

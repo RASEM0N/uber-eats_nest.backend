@@ -5,8 +5,9 @@ import { RestaurantsModule } from './restaurants/restaurants.module'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { IS_DEVELOPMENT, IS_PRODUCTION } from './constants'
 import * as Joi from 'joi'
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { typeOrmConfig } from './configs/typeOrm.config'
+import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
 
 @Module({
     imports: [
@@ -29,7 +30,7 @@ import { typeOrmConfig } from './configs/typeOrm.config'
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory: typeOrmConfig(),
+            useFactory: typeOrmConfig([RestaurantEntity]),
         }),
         GraphQLModule.forRoot({
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
