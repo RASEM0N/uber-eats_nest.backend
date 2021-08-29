@@ -9,6 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { typeOrmConfig } from './configs/typeOrm.config'
 import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
 import { CommonModule } from './common/common.module'
+import { UsersModule } from './users/users.module'
+import { UserEntity } from './users/entites/user.entity'
 
 @Module({
     imports: [
@@ -31,14 +33,18 @@ import { CommonModule } from './common/common.module'
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory: typeOrmConfig([RestaurantEntity]),
+            useFactory: typeOrmConfig([
+                UserEntity,
+                // RestaurantEntity
+            ]),
         }),
         GraphQLModule.forRoot({
             // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
             autoSchemaFile: true,
         }),
-        RestaurantsModule,
+        // RestaurantsModule,
         CommonModule,
+        UsersModule,
     ],
     controllers: [],
 })
