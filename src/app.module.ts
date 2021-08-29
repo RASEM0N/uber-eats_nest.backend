@@ -11,6 +11,7 @@ import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
 import { CommonModule } from './common/common.module'
 import { UsersModule } from './users/users.module'
 import { UserEntity } from './users/entites/user.entity'
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -45,6 +46,7 @@ import { UserEntity } from './users/entites/user.entity'
         // RestaurantsModule,
         CommonModule,
         UsersModule,
+        AuthModule,
     ],
     controllers: [],
 })
