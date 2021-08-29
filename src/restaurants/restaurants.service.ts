@@ -4,7 +4,7 @@ import { RestaurantEntity } from './entities/restaurant.entity'
 import { Repository } from 'typeorm'
 import { CreateRestaurantInput } from './dtos/create-restaurant.dto'
 import { UpdateRestaurantInput } from './dtos/update-restaurant.dto'
-import { ERROR_NOT_FOUND } from '../constants/errors'
+import { GENERAL_ERROR } from '../constants/errors.contants'
 
 @Injectable()
 export class RestaurantsService {
@@ -26,7 +26,7 @@ export class RestaurantsService {
         const restaurant = await this.restaurantRepository.findOne(id)
 
         if (!restaurant) {
-            throw new Error(ERROR_NOT_FOUND)
+            throw new Error(GENERAL_ERROR.ERROR_NOT_FOUND)
         }
 
         for (const key in data) {

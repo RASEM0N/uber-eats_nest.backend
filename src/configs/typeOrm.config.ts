@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
-import { IS_PRODUCTION } from '../constants/projectStage'
+import { IS_PRODUCTION } from '../constants/projectStage.constants'
 import { EntitySchema } from 'typeorm/entity-schema/EntitySchema'
 
 export const typeOrmConfig =

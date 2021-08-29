@@ -4,7 +4,7 @@ import { CreateRestaurantInput, CreateRestaurantOutput } from './dtos/create-res
 import { Inject } from '@nestjs/common'
 import { RestaurantsService } from './restaurants.service'
 import { UpdateRestaurantInput, UpdateRestaurantOutput } from './dtos/update-restaurant.dto'
-import { ERROR_NOT_HAVE_DATA } from '../constants/errors'
+import { GENERAL_ERROR } from '../constants/errors.contants'
 
 @Resolver((of) => RestaurantEntity)
 export class RestaurantsResolver {
@@ -51,7 +51,7 @@ export class RestaurantsResolver {
     ): Promise<UpdateRestaurantOutput> {
         try {
             if (Object.keys(updateRestaurantInput.data).length === 0) {
-                throw new Error(ERROR_NOT_HAVE_DATA)
+                throw new Error(GENERAL_ERROR.ERROR_NOT_HAVE_DATA)
             }
 
             const updatedRestaurant = await this.restaurantService.update(updateRestaurantInput)

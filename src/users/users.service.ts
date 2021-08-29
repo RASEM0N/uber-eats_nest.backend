@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entites/user.entity'
 import { Repository } from 'typeorm'
 import { CreateAccountInput } from './dtos/create-account.dto'
-import { USER_ERROR } from '../constants/errors'
+import { USER_ERROR } from './constants/user-errors.contants'
 
 @Injectable()
 export class UsersService {
