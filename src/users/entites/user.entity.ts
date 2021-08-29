@@ -27,10 +27,9 @@ export class UserEntity extends CoreEntity {
     @Length(4, 32)
     email: string
 
-    @Field((type) => String)
+    // валидация и работа c graphql
+    // извне
     @Column()
-    @IsString()
-    @Length(4, 24)
     password: string
 
     @Field((type) => UserRole)
