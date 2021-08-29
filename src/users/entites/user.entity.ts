@@ -1,7 +1,9 @@
-import { Column, Entity } from 'typeorm'
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm'
 import { Field, InputType, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { CoreEntity } from '../../common/entities/core.entity'
-import { IsEmail, IsEnum, IsString, Length } from 'class-validator'
+import { IsEmail, IsEnum, Length } from 'class-validator'
+import { genSalt, hash } from 'bcryptjs'
+import { InternalServerErrorException } from '@nestjs/common'
 
 enum UserRole {
     Owner,
@@ -39,4 +41,16 @@ export class UserEntity extends CoreEntity {
     })
     @IsEnum(UserRole)
     role: UserRole
+
+    @BeforeUpdate()
+    @BeforeInsert()
+    async hashPassword(): Promise<void> {
+        try {
+            const salt = await genSalt(10)
+            this.password = await hash(this.password, salt)
+        } catch (e) {
+            console.error(e)
+            throw new InternalServerErrorException()
+        }
+    }
 }
