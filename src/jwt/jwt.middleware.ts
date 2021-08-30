@@ -11,25 +11,28 @@ export class JwtMiddleware implements NestMiddleware {
     ) {}
 
     async use(req: Request, _: Response, next: NextFunction): Promise<void> {
-        if ('x-jwt' in req.headers) {
-            const token = req.headers['x-jwt']
+        const token = req.header('x-jwt')
 
-            try {
-                const decoded = this.jwtService.verify(token.toString())
-                let userId: string | number
+        if (!token) {
+            next()
+            return
+        }
 
-                if (typeof decoded === 'string') {
-                    userId = decoded
-                }
+        try {
+            const decoded = this.jwtService.verify(token.toString())
+            let userId: string | number
 
-                if (typeof decoded === 'object' && decoded.hasOwnProperty('id')) {
-                    userId = decoded['id']
-                }
-
-                req['user'] = await this.userService.findById(userId)
-            } catch (e) {
-                console.error(e)
+            if (typeof decoded === 'string') {
+                userId = decoded
             }
+
+            if (typeof decoded === 'object' && decoded.hasOwnProperty('id')) {
+                userId = decoded['id']
+            }
+
+            req['user'] = await this.userService.findById(userId)
+        } catch (e) {
+            console.error(e)
         }
 
         next()
