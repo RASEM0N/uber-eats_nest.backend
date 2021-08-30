@@ -37,3 +37,5 @@ lerna-debug.log*
 .env.production
 .env.dev
 .env
+
+todos.txt
