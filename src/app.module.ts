@@ -11,7 +11,8 @@ import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
 import { CommonModule } from './common/common.module'
 import { UsersModule } from './users/users.module'
 import { UserEntity } from './users/entites/user.entity'
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module'
+import { JwtModule } from './jwt/jwt.module'
 
 @Module({
     imports: [
@@ -29,6 +30,8 @@ import { AuthModule } from './auth/auth.module';
                 DB_PASSWORD: Joi.string().required(),
                 DB_NAME: Joi.string().required(),
                 DB_PORT: Joi.string().required(),
+                JWT_SECRET: Joi.string().min(6).max(128).required(),
+                JWT_EXPIRES: Joi.string().required(),
             }),
         }),
         TypeOrmModule.forRootAsync({
@@ -42,6 +45,10 @@ import { AuthModule } from './auth/auth.module';
         GraphQLModule.forRoot({
             // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
             autoSchemaFile: true,
+        }),
+        JwtModule.forRoot({
+            secret_key: process.env.JWT_SECRET,
+            expires: process.env.JWT_EXPIRES,
         }),
         // RestaurantsModule,
         CommonModule,
