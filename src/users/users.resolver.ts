@@ -2,10 +2,12 @@ import { Args, Context, Mutation, Resolver } from '@nestjs/graphql'
 import { UserEntity } from './entites/user.entity'
 import { Query } from '@nestjs/graphql'
 import { UsersService } from './users.service'
-import { Inject } from '@nestjs/common'
+import { Inject, UseGuards } from '@nestjs/common'
 import { CreateAccountInput, CreateAccountOutput } from './dtos/create-account.dto'
 import { AuthService } from '../auth/auth.service'
 import { LoginInput, LoginOutput } from '../auth/dtos/login.dto'
+import { AuthGuard } from '../auth/auth.guard'
+import { AuthUser } from '../auth/auth.decorator'
 
 @Resolver((of) => UserEntity)
 export class UsersResolver {
@@ -65,7 +67,8 @@ export class UsersResolver {
     }
 
     @Query((returns) => UserEntity)
-    async me(@Context() context) {
-        console.log(context['user'])
+    @UseGuards(new AuthGuard())
+    async me(@AuthUser() user: UserEntity) {
+        return user
     }
 }
