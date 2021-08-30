@@ -1,7 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common'
 import { JwtService } from './jwt.service'
 import { JwtConfigOptions } from './interfaces/jwt-options.interface'
-import { JWT_CONFIG_OPTIONS } from './jwt.constants'
+import { JWT_CONFIG_OPTIONS } from './constants/jwt-options.constants'
 
 @Module({})
 @Global() // т.к. у нас forRoot, и шоб инжектить jwtService

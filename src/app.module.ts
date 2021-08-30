@@ -41,7 +41,6 @@ import { JwtMiddleware } from './jwt/jwt.middleware'
             ]),
         }),
         GraphQLModule.forRoot({
-            // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
             autoSchemaFile: true,
         }),
         JwtModule.forRoot({

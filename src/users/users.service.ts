@@ -26,4 +26,8 @@ export class UsersService {
 
         return this.userRepository.save(user)
     }
+
+    async findById(userId: string | number): Promise<UserEntity | undefined> {
+        return this.userRepository.findOne(userId)
+    }
 }
