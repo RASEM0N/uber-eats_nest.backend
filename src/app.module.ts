@@ -1,18 +1,16 @@
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
-import { join } from 'path'
-import { RestaurantsModule } from './restaurants/restaurants.module'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { IS_DEVELOPMENT, IS_PRODUCTION } from './constants/projectStage.constants'
 import * as Joi from 'joi'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { typeOrmConfig } from './configs/typeOrm.config'
-import { RestaurantEntity } from './restaurants/entities/restaurant.entity'
 import { CommonModule } from './common/common.module'
 import { UsersModule } from './users/users.module'
 import { UserEntity } from './users/entites/user.entity'
 import { AuthModule } from './auth/auth.module'
 import { JwtModule } from './jwt/jwt.module'
+import { JwtMiddleware } from './jwt/jwt.middleware'
 
 @Module({
     imports: [
@@ -57,4 +55,11 @@ import { JwtModule } from './jwt/jwt.module'
     ],
     controllers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer): any {
+        consumer.apply(JwtMiddleware).forRoutes({
+            path: '/graphql',
+            method: RequestMethod.POST,
+        })
+    }
+}
