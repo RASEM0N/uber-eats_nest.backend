@@ -8,6 +8,8 @@ import { AuthService } from '../auth/auth.service'
 import { LoginInput, LoginOutput } from '../auth/dtos/login.dto'
 import { AuthGuard } from '../auth/auth.guard'
 import { AuthUser } from '../auth/auth.decorator'
+import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto'
+import { USER_ERROR } from './constants/user-errors.contants'
 
 @Resolver((of) => UserEntity)
 export class UsersResolver {
@@ -70,5 +72,29 @@ export class UsersResolver {
     @UseGuards(new AuthGuard())
     async me(@AuthUser() user: UserEntity) {
         return user
+    }
+
+    @Query((returns) => UserProfileOutput)
+    @UseGuards(new AuthGuard())
+    async userGetById(@Args() userProfileInput: UserProfileInput): Promise<UserProfileOutput> {
+        try {
+            const user = await this.userService.findById(userProfileInput.userId)
+
+            if (!user) {
+                throw Error(USER_ERROR.NOT_FOUND)
+            }
+
+            return {
+                ok: true,
+                user,
+            }
+        } catch (e) {
+            const errors = []
+            errors.push(e.message)
+            return {
+                ok: false,
+                errors,
+            }
+        }
     }
 }
