@@ -5,11 +5,14 @@ import { Repository } from 'typeorm'
 import { LoginInput } from './dtos/login.dto'
 import { AUTH_ERROR } from './contants/auth-errors.constants'
 import { JwtService } from '../jwt/jwt.service'
+import { VerificationEntity } from '../users/entites/verification.entity'
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+        @InjectRepository(VerificationEntity)
+        private readonly verificationRepository: Repository<VerificationEntity>,
         @Inject(JwtService) private readonly jwtService: JwtService,
     ) {}
 
@@ -32,5 +35,27 @@ export class AuthService {
             user,
             token,
         }
+    }
+
+    async verifyEmail(code: string): Promise<boolean> {
+        const verification = await this.verificationRepository.findOne(
+            {
+                code,
+            },
+            {
+                relations: ['user'],
+            },
+        )
+
+        if (!verification) {
+            throw new Error(AUTH_ERROR.INVALID_VERIFICATION_CODE)
+        }
+
+        const user = verification.user
+        user.verified = true
+
+        await this.userRepository.save(user)
+
+        return true
     }
 }

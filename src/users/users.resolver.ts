@@ -11,6 +11,7 @@ import { AuthUser } from '../auth/auth.decorator'
 import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto'
 import { USER_ERROR } from './constants/user-errors.contants'
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile'
+import { VerifyEmailInput, VerifyEmailOutput } from '../auth/dtos/verify-email.dto'
 
 @Resolver((of) => UserEntity)
 export class UsersResolver {
@@ -111,6 +112,27 @@ export class UsersResolver {
             return {
                 ok: true,
                 user: updatedUser,
+            }
+        } catch (e) {
+            const errors = []
+            errors.push(e.message)
+
+            return {
+                ok: false,
+                errors,
+            }
+        }
+    }
+
+    @Mutation((returns) => VerifyEmailOutput)
+    async userVerifyEmail(
+        @Args('input') verifyEmailInput: VerifyEmailInput,
+    ): Promise<VerifyEmailOutput> {
+        try {
+            const ver = await this.authService.verifyEmail(verifyEmailInput.code)
+
+            return {
+                ok: ver,
             }
         } catch (e) {
             const errors = []
