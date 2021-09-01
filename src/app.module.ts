@@ -11,6 +11,7 @@ import { UserEntity } from './users/entites/user.entity'
 import { AuthModule } from './auth/auth.module'
 import { JwtModule } from './jwt/jwt.module'
 import { JwtMiddleware } from './jwt/jwt.middleware'
+import { VerificationEntity } from './users/entites/verification.entity'
 
 @Module({
     imports: [
@@ -37,6 +38,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware'
             inject: [ConfigService],
             useFactory: typeOrmConfig([
                 UserEntity,
+                VerificationEntity,
                 // RestaurantEntity
             ]),
         }),
