@@ -38,7 +38,6 @@ export class UsersService {
             const user = await queryRunner.manager.save(newUser)
 
             const verification = this.verificationRepository.create({
-                code: '1233543',
                 user,
             })
 
