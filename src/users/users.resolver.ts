@@ -10,6 +10,7 @@ import { AuthGuard } from '../auth/auth.guard'
 import { AuthUser } from '../auth/auth.decorator'
 import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto'
 import { USER_ERROR } from './constants/user-errors.contants'
+import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile'
 
 @Resolver((of) => UserEntity)
 export class UsersResolver {
@@ -91,6 +92,30 @@ export class UsersResolver {
         } catch (e) {
             const errors = []
             errors.push(e.message)
+            return {
+                ok: false,
+                errors,
+            }
+        }
+    }
+
+    @Mutation((returns) => EditProfileOutput)
+    @UseGuards(AuthGuard)
+    async userEditProfile(
+        @AuthUser() user: UserEntity,
+        @Args('input') editProfileInput: EditProfileInput,
+    ): Promise<EditProfileOutput> {
+        try {
+            const updatedUser = await this.userService.editProfile(user.id, editProfileInput)
+
+            return {
+                ok: true,
+                user: updatedUser,
+            }
+        } catch (e) {
+            const errors = []
+            errors.push(e.message)
+
             return {
                 ok: false,
                 errors,
