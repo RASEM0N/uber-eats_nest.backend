@@ -31,7 +31,7 @@ export class UserEntity extends CoreEntity {
 
     // валидация и работа c graphql
     // извне
-    @Column()
+    @Column({ select: false })
     password: string
 
     @Field((type) => UserRole)
@@ -51,6 +51,10 @@ export class UserEntity extends CoreEntity {
     @BeforeUpdate()
     @BeforeInsert()
     async hashPassword(): Promise<void> {
+        if (!this.password) {
+            return
+        }
+
         try {
             const salt = await genSalt(10)
             this.password = await hash(this.password, salt)

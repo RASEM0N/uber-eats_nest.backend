@@ -17,9 +17,16 @@ export class AuthService {
     ) {}
 
     async login({ email, password }: LoginInput): Promise<{ user: UserEntity; token?: string }> {
-        const user = await this.userRepository.findOne({
-            email,
-        })
+        const user = await this.userRepository.findOne(
+            {
+                email,
+            },
+            {
+                select: ['email', 'role', 'password', 'id', 'verified', 'createdAt', 'updatedAt'],
+            },
+        )
+
+        console.log(user)
 
         if (!user) {
             throw new Error(AUTH_ERROR.AUTHORIZATION_FAIL)
