@@ -26,8 +26,6 @@ export class AuthService {
             },
         )
 
-        console.log(user)
-
         if (!user) {
             throw new Error(AUTH_ERROR.AUTHORIZATION_FAIL)
         }
